@@ -8,7 +8,7 @@ class Game:
         self.genres = genres
         self.themes = themes
         self.keywords = keywords
-        self.neighbors = {}  # This will store the neighboring games and their connection points
+        self.neighbors = {}  # initialize an empty dictionary to store the neighbors
 
     def add_neighbor(self, other_game, connection_points):
         self.neighbors[other_game] = connection_points
@@ -16,7 +16,7 @@ class Game:
 class GameGraph:
     '''GameGraph class to store the games and build the network.'''
     def __init__(self):
-        self.games = {}  # This will store the game_id as key and the Game object as value
+        self.games = {}
 
     def add_game(self, game):
         self.games[game.game_id] = game
@@ -33,6 +33,7 @@ class GameGraph:
         return connection_points
 
     def build_network(self):
+        '''Build the network by establishing connections between games based on shared attributes.'''
         # Calculate connection points for each pair of games and establish connections
         for game1 in self.games.values():
             for game2 in self.games.values():
@@ -42,6 +43,7 @@ class GameGraph:
                     game1.add_neighbor(game2, connection_points)
 
     def get_top_neighbors(self):
+        '''Get the top 10 neighbors for each game based on connection points.'''
         # Sort the neighbors based on connection points and get the top 10 for each game
         for game in self.games.values():
             sorted_neighbors = sorted(game.neighbors.items(), key=lambda item: item[1], reverse=True)
